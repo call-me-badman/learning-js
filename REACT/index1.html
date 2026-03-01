@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PowerHive Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07101f;
+    --sidebar: #080f1e;
+    --card: #0a1628;
+    --border: #1e3a5f;
+    --accent: #f59e0b;
+    --blue: #60a5fa;
+    --green: #22c55e;
+    --red: #ef4444;
+    --purple: #a78bfa;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --sub: #475569;
+    --deep: #071020;
+  }
+
+  body { font-family: 'Rajdhani', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  .mono { font-family: 'Share Tech Mono', monospace; }
+
+  /* ── LAYOUT ── */
+  .shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 220px; background: var(--sidebar); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; flex-shrink: 0;
+  }
+  .logo-wrap { padding: 18px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+  .logo-icon { font-size: 26px; }
+  .logo-text { font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
+  .logo-sub { font-size: 10px; color: var(--sub); letter-spacing: 1.5px; }
+  .nav-label { font-size: 10px; color: var(--sub); letter-spacing: 2px; font-weight: 700; padding: 14px 16px 6px; }
+  .nav-btn {
+    display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 14px;
+    border: none; background: transparent; color: var(--muted); font-size: 14px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 600; cursor: pointer;
+    border-radius: 6px; margin: 1px 6px; width: calc(100% - 12px); text-align: left;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { background: #0f2040; color: var(--text); }
+  .nav-btn.active { background: #0f3460; color: var(--accent); }
+  .nav-badge { margin-left: auto; background: var(--red); color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 10px; font-weight: 700; }
+  .sidebar-footer { margin-top: auto; padding: 16px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid var(--border); background: var(--sidebar); flex-shrink: 0; }
+  .page-title { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .live-pill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--green); font-weight: 700; letter-spacing: 1px; font-family: 'Share Tech Mono', monospace; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 1.5s infinite; }
+  .alert-banner { background: #ef444422; border: 1px solid var(--red); color: var(--red); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+  .content { padding: 20px; overflow-y: auto; flex: 1; }
+
+  /* ── CARDS ── */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+  .card-title { font-size: 11px; color: var(--muted); letter-spacing: 2px; font-weight: 700; margin-bottom: 14px; font-family: 'Share Tech Mono', monospace; }
+
+  /* ── STATS ROW ── */
+  .stats-row { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; flex: 1; min-width: 100px; }
+  .stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; font-family: 'Share Tech Mono', monospace; }
+  .stat-val { font-size: 24px; font-weight: 700; font-family: 'Share Tech Mono', monospace; }
+  .stat-unit { font-size: 12px; color: var(--muted); margin-left: 3px; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+
+  /* ── ZONE ROW ── */
+  .zone-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #0f2040; }
+  .zone-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .zone-name { font-size: 13px; font-weight: 600; }
+  .zone-sub { font-size: 11px; color: var(--muted); font-family: 'Share Tech Mono', monospace; }
+  .status-pill { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; letter-spacing: 1px; margin-left: auto; font-family: 'Share Tech Mono', monospace; }
+
+  /* ── ALERTS ── */
+  .alert-row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: var(--deep); border-radius: 5px; margin-bottom: 8px; border-left: 3px solid transparent; }
+  .alert-full { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid transparent; }
+  .alert-icon { font-size: 22px; }
+  .alert-title { font-size: 13px; font-weight: 700; }
+  .alert-meta { font-size: 11px; color: var(--sub); margin-top: 2px; font-family: 'Share Tech Mono', monospace; }
+  .resolve-btn { margin-left: auto; font-size: 11px; background: #0f3460; border: 1px solid #1e4a8a; color: var(--blue); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 600; white-space: nowrap; }
+  .resolve-btn:hover { background: #1e4a8a; }
+  .resolved-tag { margin-left: auto; font-size: 11px; color: var(--green); font-weight: 700; font-family: 'Share Tech Mono', monospace; }
+  .active-tag { color: var(--red); font-size: 11px; font-weight: 700; margin-left: auto; font-family: 'Share Tech Mono', monospace; }
+
+  /* ── WORKERS ── */
+  .workers-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+  .worker-card { background: var(--deep); border: 1px solid var(--border); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; align-items: center; min-width: 120px; }
+  .worker-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #0f2040; }
+  .worker-name { font-size: 14px; font-weight: 600; }
+  .worker-sub { font-size: 11px; color: var(--muted); }
+  .chat-btn { font-size: 12px; background: #0f3460; border: 1px solid #1e4a8a; color: var(--blue); border-radius: 4px; padding: 6px 12px; cursor: pointer; margin-left: auto; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+
+  /* ── AVATAR ── */
+  .avatar { border-radius: 50%; background: #0f3460; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text); font-family: 'Share Tech Mono', monospace; border: 1.5px solid #1e4a8a; flex-shrink: 0; position: relative; }
+  .avatar-sm { width: 34px; height: 34px; font-size: 11px; }
+  .avatar-md { width: 44px; height: 44px; font-size: 14px; }
+  .avatar-lg { width: 52px; height: 52px; font-size: 16px; }
+  .online-dot { position: absolute; bottom: 0; right: 0; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--sidebar); }
+
+  /* ── CHAT ── */
+  .chat-layout { display: flex; height: calc(100vh - 57px); }
+  .chat-list { width: 200px; border-right: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; }
+  .chat-list-label { padding: 14px 14px 6px; font-size: 10px; color: var(--muted); letter-spacing: 2px; font-weight: 700; font-family: 'Share Tech Mono', monospace; }
+  .chat-list-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #0f2040; transition: background 0.1s; }
+  .chat-list-item:hover { background: #0a1628; }
+  .chat-list-item.active { background: #0f3460; }
+  .chat-window { flex: 1; display: flex; flex-direction: column; }
+  .chat-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--sidebar); flex-shrink: 0; }
+  .messages-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
+  .msg-row { display: flex; gap: 8px; align-items: flex-end; }
+  .msg-row.right { flex-direction: row-reverse; }
+  .bubble { padding: 9px 13px; border-radius: 8px; font-size: 13px; max-width: 280px; line-height: 1.5; }
+  .bubble-admin { background: #0f3460; color: var(--text); border-bottom-right-radius: 2px; }
+  .bubble-worker { background: #1e3a5f; color: var(--text); border-bottom-left-radius: 2px; }
+  .msg-time { font-size: 10px; color: var(--sub); margin-top: 3px; font-family: 'Share Tech Mono', monospace; }
+  .msg-time.right { text-align: right; }
+  .chat-input-row { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--sidebar); flex-shrink: 0; }
+  .chat-input { flex: 1; background: var(--deep); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 10px 14px; font-size: 13px; outline: none; font-family: 'Share Tech Mono', monospace; transition: border 0.2s; }
+  .chat-input:focus { border-color: var(--blue); }
+  .send-btn { background: var(--accent); border: none; color: #07101f; border-radius: 6px; padding: 10px 18px; font-size: 12px; font-weight: 700; cursor: pointer; letter-spacing: 1px; font-family: 'Rajdhani', sans-serif; transition: opacity 0.2s; }
+  .send-btn:hover { opacity: 0.85; }
+
+  /* ── VIEW TOGGLE ── */
+  .view-toggle { position: fixed; top: 12px; right: 12px; z-index: 9999; display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 4px; }
+  .toggle-btn { padding: 5px 14px; border-radius: 4px; border: none; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 700; transition: all 0.15s; }
+  .toggle-btn.active { background: #0f3460; color: var(--accent); }
+
+  /* ── SENSOR TABLE ── */
+  .sensor-bar { height: 6px; border-radius: 3px; background: #0f2040; overflow: hidden; margin-top: 4px; }
+  .sensor-fill { height: 100%; border-radius: 3px; transition: width 1s; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.7} }
+  @keyframes fadein { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .fadein { animation: fadein 0.25s ease; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- VIEW TOGGLE -->
+<div class="view-toggle">
+  <button class="toggle-btn active" onclick="switchView('admin', this)">⚡ Admin</button>
+  <button class="toggle-btn" onclick="switchView('worker', this)">👷 Worker</button>
+</div>
+
+<!-- ADMIN SHELL -->
+<div class="shell" id="admin-view">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="logo-wrap">
+      <div class="logo-icon">⚡</div>
+      <div>
+        <div class="logo-text">PowerHive</div>
+        <div class="logo-sub">CONTROL CENTER</div>
+      </div>
+    </div>
+    <div style="padding:0 6px;margin-top:8px">
+      <div class="nav-label">NAVIGATION</div>
+      <button class="nav-btn active" onclick="adminTab('overview',this)"><span>🏠</span> Overview</button>
+      <button class="nav-btn" onclick="adminTab('sensors',this)"><span>📡</span> Sensors</button>
+      <button class="nav-btn" onclick="adminTab('alerts',this)"><span>🚨</span> Alerts <span class="nav-badge" id="alert-badge">2</span></button>
+      <button class="nav-btn" onclick="adminTab('workers',this)"><span>👷</span> Workers</button>
+      <button class="nav-btn" onclick="adminTab('chat',this)"><span>💬&l...
