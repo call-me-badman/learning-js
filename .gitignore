@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+react/
+node/
+
+
+# logs
+*.log
+
+# environment variables
+.env
+
+# build folders
+dist/
+build/
+
+# OS files
+.DS_Store
