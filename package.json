@@ -1,7 +1,7 @@
 {
   "name": "mis-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "A RESTful back-end API built to power the application's core functionality.",
   "main": "express.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,10 +15,19 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
+<<<<<<< HEAD
     "url": "git+https://github.com/irakoze-olga/Javascript.git"
   },
   "bugs": {
     "url": "https://github.com/irakoze-olga/Javascript/issues"
   },
   "homepage": "https://github.com/irakoze-olga/Javascript#readme"
+=======
+    "url": "git+https://github.com/irakoze-olga/back-end.git"
+  },
+  "bugs": {
+    "url": "https://github.com/irakoze-olga/back-end/issues"
+  },
+  "homepage": "https://github.com/irakoze-olga/back-end#readme"
+>>>>>>> express
 }
