@@ -21,7 +21,7 @@ catch (error) {
 });
 
 // read all students
-app/get("/students" , async (req, res) => {
+app.get("/students" , async (req, res) => {
     try{
         const students = await Student.find();
         res.status(200).json(students);
@@ -29,4 +29,43 @@ app/get("/students" , async (req, res) => {
     catch (error){
         res.status(500).json({error: error.message});
     }
+});
+
+//read one student
+
+app.get("/students/:id" , async(req, res) => {
+    try{
+        const student = await Student.findById(req.params.id);
+        res.json(student);
+    }
+    catch(error) {
+        res.status(500).json({error: error.message});
+    }
+});
+
+app.put("/students/:id", async(req, res) => {
+try{
+    const updatedStudent = await Student.findByIdAndUpdate(
+        req.params.id,
+        req.body.body,
+        {new : true}
+    );
+    res.json(updatedStudent);
+}
+catch (error) {
+    res.status(500).json({error: error.message});
+}
+});
+// DELETE STUDENT
+app.delete("/students/:id", async (req, res) => {
+    try {
+        await Student.findByIdAndDelete(req.params.id);
+        res.send("Student deleted");
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
 });
