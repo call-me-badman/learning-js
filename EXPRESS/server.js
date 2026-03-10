@@ -67,3 +67,14 @@ app.delete("/books/:id", async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+// flow
+// HTTP Request
+//      ↓
+// Express Route
+//      ↓
+// Mongoose Model
+//      ↓
+// MongoDB Database
+//      ↓
+// JSON Response
