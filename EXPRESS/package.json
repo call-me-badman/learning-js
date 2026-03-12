@@ -1,5 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "mongoose": "^9.2.4"
+=======
+    "express": "^5.2.1"
+>>>>>>> 954dce30f3f066c7edcc72d986c792720cf85bf9
   }
 }

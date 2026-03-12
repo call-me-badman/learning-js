@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/irakoze-olga/back-end/issues"
   },
-  "homepage": "https://github.com/irakoze-olga/back-end#readme"
+  "homepage": "https://github.com/irakoze-olga/back-end#readme",
+    "url": "git+https://github.com/irakoze-olga/Javascript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/irakoze-olga/Javascript/issues"
+  },
+  "homepage": "https://github.com/irakoze-olga/Javascript#readme"
+>>>>>>> 954dce30f3f066c7edcc72d986c792720cf85bf9
 }
