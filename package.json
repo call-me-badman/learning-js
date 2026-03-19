@@ -15,19 +15,10 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-<<<<<<< HEAD
-    "url": "git+https://github.com/irakoze-olga/Javascript.git"
-  },
-  "bugs": {
-    "url": "https://github.com/irakoze-olga/Javascript/issues"
-  },
-  "homepage": "https://github.com/irakoze-olga/Javascript#readme"
-=======
     "url": "git+https://github.com/irakoze-olga/back-end.git"
   },
   "bugs": {
     "url": "https://github.com/irakoze-olga/back-end/issues"
   },
   "homepage": "https://github.com/irakoze-olga/back-end#readme"
->>>>>>> express
 }
