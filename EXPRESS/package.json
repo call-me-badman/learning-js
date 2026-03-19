@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "mongoose": "^9.2.4"
+  }
     "accepts": "^2.0.0",
     "body-parser": "^2.2.2",
     "bson": "^7.2.0",
@@ -84,7 +86,6 @@
     "whatwg-url": "^14.2.0",
     "wrappy": "^1.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
