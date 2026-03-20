@@ -1,9 +1,5 @@
 # dependencies
 node_modules/
-react/
-node/
-
-
 # logs
 *.log
 
