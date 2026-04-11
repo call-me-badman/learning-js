@@ -1,18 +1,21 @@
-#!/bin/bash
+# Run this inside a GitHub-tracked repo folder
+# Open PowerShell, navigate to your repo, then run: .\fill_days.ps1
 
-# Run this inside a GitHub-tracked repo
-# Fills the last 21 days with commits
+for ($i = 20; $i -ge 0; $i--) {
+    $date = (Get-Date).AddDays(-$i).ToString("yyyy-MM-ddT12:00:00")
+    
+    $env:GIT_AUTHOR_DATE = $date
+    $env:GIT_COMMITTER_DATE = $date
+    
+    git commit --allow-empty -m "Daily progress - $date"
+    
+    Write-Host "Created commit for $date"
+}
 
-REPO_DIR="."  # Change to your repo path
-cd "$REPO_DIR"
-
-for i in $(seq 20 -1 0); do
-  DATE=$(date -d "$i days ago" "+%Y-%m-%dT12:00:00")
-  
-  GIT_AUTHOR_DATE="$DATE" \
-  GIT_COMMITTER_DATE="$DATE" \
-  git commit --allow-empty -m "Daily progress - $(date -d "$i days ago" '+%Y-%m-%d')"
-  
-done
+# Clean up env variables
+Remove-Item Env:GIT_AUTHOR_DATE
+Remove-Item Env:GIT_COMMITTER_DATE
 
 git push origin main
+
+Write-Host "Done! Check your GitHub profile in a few minutes."
