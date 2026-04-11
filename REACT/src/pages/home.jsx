@@ -1,14 +1,8 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import AppRouter from "../router";
 
-const Home = () => {
-    return (
-        <div className="main-page">
-            <h1>Welcome to the Admins web app</h1>
-            <Link to="/learn" className="home-link">
-                Go to Learn Page
-            </Link>
-        </div>
-    );
-};
+function greet(){
+    return <h3>Hello y'all!</h3>;
+}
 
 export default Home;
