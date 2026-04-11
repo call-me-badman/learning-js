@@ -1,4 +1,4 @@
-for ($i = 20; $i -ge 0; $i--) {
+for ($i = 99; $i -ge 0; $i--) {
     for ($j = 1; $j -le 5; $j++) {
         $date = (Get-Date).AddDays(-$i).ToString("yyyy-MM-ddT1$($j):00:00")
         
@@ -14,4 +14,4 @@ Remove-Item Env:GIT_AUTHOR_DATE
 Remove-Item Env:GIT_COMMITTER_DATE
 
 git push origin main --force
-Write-Host "Done! 105 commits pushed (5 per day x 21 days)"
+Write-Host "Done! 500 commits pushed (5 per day x 100 days)"
