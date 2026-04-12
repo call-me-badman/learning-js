@@ -17,4 +17,4 @@ Remove-Item Env:GIT_AUTHOR_DATE
 Remove-Item Env:GIT_COMMITTER_DATE
 
 git push origin main --force
-Write-Host "Done! 5 commits per day from Jan 1 to today!"
+Write-Host "Done!"
